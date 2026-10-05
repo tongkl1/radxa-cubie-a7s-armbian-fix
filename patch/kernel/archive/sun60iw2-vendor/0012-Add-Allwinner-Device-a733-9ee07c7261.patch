@@ -1,14 +1,14 @@
-From 3ae96d8b6ee767bc829ef94592c34dee2ffa8de0 Mon Sep 17 00:00:00 2001
+From 00531a9bbc2573bc157e6eecc714921eac380d2a Mon Sep 17 00:00:00 2001
 From: Armbian Builder <support@armbian.com>
-Date: Sat, 25 Jul 2026 14:40:10 +0000
-Subject: [PATCH] Add Allwinner Device a733 0fd7d1452e
+Date: Mon, 5 Oct 2026 09:40:29 +0000
+Subject: [PATCH] Add Allwinner Device a733 9ee07c7261
 
 ---
- .../dts/allwinner/sun60i-a733-cubie-a7a.dts   | 2427 +++++++++++++++++
- .../dts/allwinner/sun60i-a733-cubie-a7s.dts   | 2156 +++++++++++++++
- .../dts/allwinner/sun60i-a733-cubie-a7z.dts   | 2182 +++++++++++++++
- arch/arm64/configs/bsp.config                 |  394 +++
- 4 files changed, 7161 insertions(+)
+ .../dts/allwinner/sun60i-a733-cubie-a7a.dts   | 2428 +++++++++++++++++
+ .../dts/allwinner/sun60i-a733-cubie-a7s.dts   | 2159 +++++++++++++++
+ .../dts/allwinner/sun60i-a733-cubie-a7z.dts   | 2183 +++++++++++++++
+ arch/arm64/configs/bsp.config                 |  396 +++
+ 4 files changed, 7166 insertions(+)
  create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7a.dts
  create mode 100755 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
  create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7z.dts
@@ -16,10 +16,10 @@ Subject: [PATCH] Add Allwinner Device a733 0fd7d1452e
 
 diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7a.dts b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7a.dts
 new file mode 100644
-index 000000000000..162387fd7de9
+index 000000000000..1f05f7863261
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7a.dts
-@@ -0,0 +1,2427 @@
+@@ -0,0 +1,2428 @@
 +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +
 +/dts-v1/;
@@ -28,7 +28,7 @@ index 000000000000..162387fd7de9
 +#define TYPEC_DP 1
 +/{
 +	board = "A733", "A733-CUBIE-A7A-AXP318";
-+	compatible = "radxa,a733", "radxa,cubie-a7a", "arm,sun60iw2p1", "allwinner,sun60i-a733";
++	compatible = "radxa,cubie-a7a", "radxa,a733", "arm,sun60iw2p1", "allwinner,sun60i-a733";
 +	aliases {
 +		arisc-config = &arisc_config;
 +		pmu0 = &pmu0;
@@ -118,6 +118,7 @@ index 000000000000..162387fd7de9
 +		led-1 {
 +			label = "radxa:green:power";
 +			gpios = <&pio PJ 26 GPIO_ACTIVE_LOW>;
++			default-state = "on";
 +			linux,default-trigger = "default-on";
 +		};
 +	};
@@ -2449,10 +2450,10 @@ index 000000000000..162387fd7de9
 +};
 diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
 new file mode 100755
-index 000000000000..4bf0a5349c0e
+index 000000000000..316058c52176
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-@@ -0,0 +1,2156 @@
+@@ -0,0 +1,2159 @@
 +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +
 +/dts-v1/;
@@ -2461,7 +2462,7 @@ index 000000000000..4bf0a5349c0e
 +#define TYPEC_DP 1
 +/{
 +	board = "A733", "A733-CUBIE-A7S-AXP318";
-+	compatible = "radxa,a733", "radxa,cubie-a7s", "arm,sun60iw2p1", "allwinner,sun60i-a733";
++	compatible = "radxa,cubie-a7s", "radxa,a733", "arm,sun60iw2p1", "allwinner,sun60i-a733";
 +	aliases {
 +		arisc-config = &arisc_config;
 +		pmu0 = &pmu0;
@@ -2539,6 +2540,7 @@ index 000000000000..4bf0a5349c0e
 +		led-0 {
 +			label = "radxa:green:sys";
 +			gpios = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
++			default-state = "on";
 +			linux,default-trigger = "default-on";
 +		};
 +
@@ -3367,7 +3369,7 @@ index 000000000000..4bf0a5349c0e
 +	vdmmc33sw-supply = <&reg_dc1sw2>;
 +	vqmmc18sw-supply = <&reg_cldo5>;
 +	vdmmc18sw-supply = <&reg_cldo5>;
-+	status = "disabled";
++	status = "okay";
 +};
 +
 +&sdc1 {
@@ -3385,13 +3387,15 @@ index 000000000000..4bf0a5349c0e
 +	cd-used-24M;
 +	cd-set-debounce = <0x1>;
 +	cap-sd-highspeed;
++	sd-uhs-sdr50;
++	sd-uhs-ddr50;
++	sd-uhs-sdr104;
 +	no-sdio;
 +	no-mmc;
 +	sunxi-power-save-mode;
-+	sunxi-dis-signal-vol-sw;
-+	no-1-8-v;
-+	max-frequency = <50000000>;
-+	ctl-spec-caps = <0x420>;
++	/*sunxi-dis-signal-vol-sw;*/
++	max-frequency = <200000000>;
++	ctl-spec-caps = <0x428>;
 +	vmmc-supply = <&reg_dc1sw2>;
 +	vqmmc33sw-supply = <&reg_dc1sw2>;
 +	vdmmc33sw-supply = <&reg_dc1sw2>;
@@ -4611,10 +4615,10 @@ index 000000000000..4bf0a5349c0e
 +};
 diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7z.dts b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7z.dts
 new file mode 100644
-index 000000000000..7bbe88449f9e
+index 000000000000..55a2a3ae469e
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7z.dts
-@@ -0,0 +1,2182 @@
+@@ -0,0 +1,2183 @@
 +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +
 +/dts-v1/;
@@ -4623,7 +4627,7 @@ index 000000000000..7bbe88449f9e
 +#define TYPEC_DP 1
 +/{
 +	board = "A733", "A733-CUBIE-A7Z-AXP318";
-+	compatible = "radxa,a733", "radxa,cubie-a7z", "arm,sun60iw2p1", "allwinner,sun60i-a733";
++	compatible = "radxa,cubie-a7z", "radxa,a733", "arm,sun60iw2p1", "allwinner,sun60i-a733";
 +	aliases {
 +		standby_param = &standby_param;
 +		arisc-config = &arisc_config;
@@ -4696,6 +4700,7 @@ index 000000000000..7bbe88449f9e
 +		led-0 {
 +			label = "radxa:green:user";
 +			gpios = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
++			default-state = "on";
 +			linux,default-trigger = "heartbeat";
 +		};
 +	};
@@ -5548,7 +5553,7 @@ index 000000000000..7bbe88449f9e
 +
 +&sdc0 {
 +	bus-width = <4>;
-+	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
++	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 +	/*non-removable;*/
 +	/*broken-cd;*/
 +	/*cd-inverted;*/
@@ -6799,10 +6804,10 @@ index 000000000000..7bbe88449f9e
 +};
 diff --git a/arch/arm64/configs/bsp.config b/arch/arm64/configs/bsp.config
 new file mode 100644
-index 000000000000..f1d24427dd4a
+index 000000000000..914da70a9a85
 --- /dev/null
 +++ b/arch/arm64/configs/bsp.config
-@@ -0,0 +1,394 @@
+@@ -0,0 +1,396 @@
 +# CONFIG_LOCALVERSION_AUTO is not set
 +CONFIG_SYSVIPC=y
 +CONFIG_NO_HZ=y
@@ -6973,7 +6978,7 @@ index 000000000000..f1d24427dd4a
 +CONFIG_AW_HWSPINLOCK=y
 +CONFIG_AW_NNA_VIP=y
 +CONFIG_NNA_VIP2=y
-+CONFIG_AW_CRASHDUMP=y
++# CONFIG_AW_CRASHDUMP is not set
 +CONFIG_FAT_DEFAULT_UTF8=y
 +CONFIG_AW_RFKILL=y
 +CONFIG_AW_MACADDR_MGT=y
@@ -7158,9 +7163,10 @@ index 000000000000..f1d24427dd4a
 +CONFIG_MAGIC_SYSRQ=y
 +CONFIG_DEBUG_FS=y
 +CONFIG_PANIC_ON_OOPS=y
++CONFIG_PANIC_TIMEOUT=10
 +# CONFIG_FTRACE is not set
 +# CONFIG_STRICT_DEVMEM is not set
-+CONFIG_MAXIO_PHY=m
++CONFIG_MAXIO_PHY=y
 +
 +#
 +# Bluetooth device drivers
@@ -7197,6 +7203,7 @@ index 000000000000..f1d24427dd4a
 +CONFIG_BLK_DEV_LOOP=y
 +CONFIG_BACKLIGHT_GPIO=m
 +CONFIG_PWM_GPIO=m
++CONFIG_AT803X_PHY=y
 -- 
 2.47.3
 
