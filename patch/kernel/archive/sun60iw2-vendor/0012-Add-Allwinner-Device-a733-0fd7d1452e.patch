@@ -5,7 +5,7 @@ Subject: [PATCH] Add Allwinner Device a733 0fd7d1452e
 
 ---
  .../dts/allwinner/sun60i-a733-cubie-a7a.dts   | 2427 +++++++++++++++++
- .../dts/allwinner/sun60i-a733-cubie-a7s.dts   | 2158 +++++++++++++++
+ .../dts/allwinner/sun60i-a733-cubie-a7s.dts   | 2156 +++++++++++++++
  .../dts/allwinner/sun60i-a733-cubie-a7z.dts   | 2182 +++++++++++++++
  arch/arm64/configs/bsp.config                 |  394 +++
  4 files changed, 7161 insertions(+)
@@ -2452,7 +2452,7 @@ new file mode 100755
 index 000000000000..4bf0a5349c0e
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-@@ -0,0 +1,2158 @@
+@@ -0,0 +1,2156 @@
 +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
 +
 +/dts-v1/;
@@ -3367,7 +3367,7 @@ index 000000000000..4bf0a5349c0e
 +	vdmmc33sw-supply = <&reg_dc1sw2>;
 +	vqmmc18sw-supply = <&reg_cldo5>;
 +	vdmmc18sw-supply = <&reg_cldo5>;
-+	status = "okay";
++	status = "disabled";
 +};
 +
 +&sdc1 {
@@ -3385,15 +3385,13 @@ index 000000000000..4bf0a5349c0e
 +	cd-used-24M;
 +	cd-set-debounce = <0x1>;
 +	cap-sd-highspeed;
-+	sd-uhs-sdr50;
-+	sd-uhs-ddr50;
-+	sd-uhs-sdr104;
 +	no-sdio;
 +	no-mmc;
 +	sunxi-power-save-mode;
-+	/*sunxi-dis-signal-vol-sw;*/
-+	max-frequency = <200000000>;
-+	ctl-spec-caps = <0x428>;
++	sunxi-dis-signal-vol-sw;
++	no-1-8-v;
++	max-frequency = <50000000>;
++	ctl-spec-caps = <0x420>;
 +	vmmc-supply = <&reg_dc1sw2>;
 +	vqmmc33sw-supply = <&reg_dc1sw2>;
 +	vdmmc33sw-supply = <&reg_dc1sw2>;
